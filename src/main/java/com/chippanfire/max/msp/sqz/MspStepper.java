@@ -1,6 +1,6 @@
 package com.chippanfire.max.msp.sqz;
 
-import com.chippanfire.max.msp.MaxProxy;
+import com.chippanfire.max.msp.MaxCommsFactory;
 import com.cycling74.max.Atom;
 import com.cycling74.max.DataTypes;
 import com.cycling74.msp.MSPPerformer;
@@ -24,7 +24,7 @@ public class MspStepper extends MSPPerformer {
     public static final int NUMBER_OF_STEPS = 32;
 
     private final Ramp ramp = new Ramp().setNumberOfSteps(NUMBER_OF_STEPS);
-    private final StepDetector stepDetector = new StepDetector(new MaxProxy(this, 0)).setNumberOfSteps(NUMBER_OF_STEPS);
+    private final StepDetector stepDetector = new StepDetector(MaxCommsFactory.proxy(this, 0)).setNumberOfSteps(NUMBER_OF_STEPS);
     private final RampStartActions rampStartAction = new RampStartActions(ramp);
     private final RampStopActions rampStopAction = new RampStopActions(stepDetector, ramp);
     private final RampDetector rampDetector = new RampDetector(rampStartAction, rampStopAction);
