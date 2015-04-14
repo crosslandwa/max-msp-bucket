@@ -10,8 +10,10 @@ I envisage making smaller libraries for specific patches. Until that requirement
 - New empty project in IntelliJ, import maven module
 - Add max.jar to project classpath
   - */Applications/Max5/Cycling '74/java/lib/max.jar*
-- Build classes
-  - Can this be done to a jar with Maven, or will Max only work with a path to compile .class files?
+- Build classes/jar
+  - Classes can be built directly by compiling in IntelliJ
+  - Jar can be built with maven (requires specifying max.jar with a <scope>system</scope>)
 - Update Max to be able to find compiled classes
-  - edit max.java.config.txt **[Todo add full file path here]**
-  - add line ... **[TODO add correct value here]**
+  - edit */Applications/Max5/Cycling '74/java/max.java.config.txt*
+  - add *max.dynamic.class.dir /Users/WillyC/Documents/max-msp-bucket/target/* for classes
+  - add *max.dynamic.jar.dir /Users/WillyC/Documents/max-msp-bucket/target/* for jars
