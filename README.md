@@ -9,7 +9,7 @@ I envisage making smaller libraries for specific patches. Until that requirement
 - Git clone this library
 - New empty project in IntelliJ, import maven module
 - Add max.jar to project classpath
-  - */Library/Application Support/Cycling '74/java/lib/max.jar*
+  - */Applications/Max5/Cycling '74/java/lib/max.jar*
 - Build classes
   - Can this be done to a jar with Maven, or will Max only work with a path to compile .class files?
 - Update Max to be able to find compiled classes
