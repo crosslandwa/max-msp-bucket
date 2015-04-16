@@ -10,25 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A signal rate stepper to drive a sequencer.
- *
- * This class acts as the adaptor layer between Max (via extension of MaxObject) and the MspStepper implementation
- *
- * Takes an input ramp with an assumed frequency of 1 'beat', and outputs a new step (between 0 and N) every time
- * the input ramp rolls over
+ * This class acts as the adaptor layer between Max (via extension of MaxObject) and the MspStepperImpl implementation
  */
 public class MspStepper extends MSPPerformer {
     private static final String[] INLET_ASSIST = new String[] {"input (sig)"};
     private static final String[] OUTLET_ASSIST = new String[] {"step (int)"};
 
-    public static final int NUMBER_OF_STEPS = 32;
-
-    private final Ramp ramp = new Ramp().setNumberOfSteps(NUMBER_OF_STEPS);
-    private final StepDetector stepDetector = new StepDetector(MaxCommsFactory.proxy(this, 0)).setNumberOfSteps(NUMBER_OF_STEPS);
-    private final RampStartActions rampStartAction = new RampStartActions(ramp);
-    private final RampStopActions rampStopAction = new RampStopActions(stepDetector, ramp);
-    private final RampDetector rampDetector = new RampDetector(rampStartAction, rampStopAction);
-    private Swing swing = Swing.unswung();
+    private final MspStepperImpl impl = new MspStepperImpl(MaxCommsFactory.proxy(this, 0));
 
     public MspStepper() {
         declareInlets(new int[]{SIGNAL});
@@ -39,19 +27,13 @@ public class MspStepper extends MSPPerformer {
     }
 
     public void rampLengthInSamples(float stepSizeInSamples) {
-        ramp.setRampTime(stepSizeInSamples);
+        impl.rampTimeInSamples(stepSizeInSamples);
     }
 
     public void jumpToStep(int nextStep) {
-        ramp.setNextStep(nextStep);
+        impl.jumpToStep(nextStep);
     }
 
-    /**
-     * Update swing settings
-     *
-     * TODO - What happens when this.swing re-instantiated in message thread (but processing occurring in audio thread)?
-     * @param args
-     */
     public void swing (Atom[] args) {
         List<Float> swingValues = new ArrayList<Float>();
 
@@ -65,7 +47,7 @@ public class MspStepper extends MSPPerformer {
             }
         }
 
-        swing = new Swing(NUMBER_OF_STEPS, swingValues);
+        impl.updateSwing(swingValues);
     }
 
     @Override
@@ -77,14 +59,8 @@ public class MspStepper extends MSPPerformer {
     public void perform(MSPSignal[] ins, MSPSignal[] outs) {
         float [] inputRamp = ins[0].vec;
 
-        /**
-         * TODO - move this micro implementation into a class, making this class a pure adaptor
-         */
         for (int index = 0; index < inputRamp.length; index++) {
-            rampDetector.process(inputRamp[index]);
-            if (ramp.isPlaying()) {
-                stepDetector.process(swing.process(ramp.advance()));
-            }
+            impl.process(inputRamp[index]);
         }
     }
 
