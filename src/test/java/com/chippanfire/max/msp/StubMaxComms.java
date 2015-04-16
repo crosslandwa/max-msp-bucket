@@ -19,6 +19,10 @@ public class StubMaxComms implements MaxComms {
         return values.get(i);
     }
 
+    public int latest() {
+        return values.get(values.size() - 1);
+    }
+
     public int messageCount() {
         return values.size();
     }
