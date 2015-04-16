@@ -1,21 +1,10 @@
 package com.chippanfire.max.msp.sqz;
 
-import com.chippanfire.max.msp.StubMaxComms;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class JumpToStepTest {
-
-    private MspStepperImpl stepper;
-    private StubMaxComms stubMaxComms = new StubMaxComms();
-
-    @BeforeMethod
-    public void setUp() throws Exception {
-        stubMaxComms.reset();
-        stepper = new MspStepperImpl(stubMaxComms, 32);
-    }
+public class JumpToStepTest extends MspStepperImplBaseTest {
 
     @Test
     public void canJumpToStep() throws Exception {
@@ -89,21 +78,5 @@ public class JumpToStepTest {
 
         assertEquals(stubMaxComms.latest(), 5);
         assertEquals(stubMaxComms.messageCount(), 3);
-    }
-
-    private JumpToStepTest rampFirstHalf() {
-        process(0f, 0.01f, 0.05f, 0.08f, 0.1f, 0.2f, 0.3f, 0.49f);
-        return this;
-    }
-
-    private JumpToStepTest rampSecondHalf() {
-        process(0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 0.91f, 0.95f, 0.955f, 0.99f, 0.995f);
-        return this;
-    }
-
-    private void process(Float... values) {
-        for (Float value : values) {
-            stepper.process(value);
-        }
     }
 }
