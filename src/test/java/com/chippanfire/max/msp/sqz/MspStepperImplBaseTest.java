@@ -14,15 +14,16 @@ public abstract class MspStepperImplBaseTest {
     public void setUp() throws Exception {
         stubMaxComms.reset();
         stepper = new MspStepperImpl(stubMaxComms, 32);
+        stepper.rampTimeInSamples(10);
     }
 
     protected final MspStepperImplBaseTest rampFirstHalf() {
-        process(0f, 0.01f, 0.05f, 0.08f, 0.1f, 0.2f, 0.3f, 0.49f);
+        process(0f, 0.1f, 0.2f, 0.3f, 0.4f);
         return this;
     }
 
     protected final MspStepperImplBaseTest rampSecondHalf() {
-        process(0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 0.91f, 0.95f, 0.955f, 0.99f, 0.995f);
+        process(0.5f, 0.6f, 0.7f, 0.8f, 0.9f);
         return this;
     }
 

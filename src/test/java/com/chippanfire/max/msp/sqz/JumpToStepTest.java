@@ -58,7 +58,7 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         assertEquals(stubMaxComms.messageCount(), 3);
     }
 
-    @Test(enabled = false) // TODO This highlights a bug to fix!
+    @Test
     public void canJumpRepeatedlyToSameStep() throws Exception {
         rampFirstHalf();
 

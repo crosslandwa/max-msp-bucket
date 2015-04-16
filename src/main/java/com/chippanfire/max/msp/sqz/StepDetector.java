@@ -12,7 +12,9 @@ class StepDetector {
     private final MaxComms maxComms;
     private int numberOfSteps = 4;
     private float thresholdDelta = 1f / numberOfSteps;
+    private float halfThresholdDelta = thresholdDelta / 2;
     private Integer lastStep = null;
+    private float lastSample;
 
     StepDetector(MaxComms maxComms) {
         this.maxComms = maxComms;
@@ -20,16 +22,19 @@ class StepDetector {
 
     void process(float sample) {
         Integer step = ((int) (sample / thresholdDelta)) % numberOfSteps;
-        if (!step.equals(lastStep)) {
+
+        // this may cause a bang when stopping. Could hold ref to ramp and only output if ramp.isPlaying()
+        if (!step.equals(lastStep) || (Math.abs(lastSample - sample) > halfThresholdDelta)) {
             maxComms.outlet(step);
         }
-
+        lastSample = sample;
         lastStep = step;
     }
 
     StepDetector setNumberOfSteps(int numberOfSteps) {
         this.numberOfSteps = numberOfSteps;
         thresholdDelta = 1f / numberOfSteps;
+        halfThresholdDelta = thresholdDelta / 2;
         return this;
     }
 
