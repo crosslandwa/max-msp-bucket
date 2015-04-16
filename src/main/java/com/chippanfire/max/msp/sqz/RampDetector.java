@@ -35,11 +35,11 @@ class RampDetector {
 
         if (delta > 0) {
             isStopped = false;
-            if (about50PercentSinceLastBang && above90PercentSinceLastBang && sample < 0.1) {
+            if (about50PercentSinceLastBang && above90PercentSinceLastBang && sample <= 0.1f) {
                 above90PercentSinceLastBang = false;
                 about50PercentSinceLastBang = false;
                 rampStartAction.bang();
-            } else if (about50PercentSinceLastBang && sample > 0.9) {
+            } else if (about50PercentSinceLastBang && sample >= 0.9f) {
                 above90PercentSinceLastBang = true;
             } else if (sample > 0.4f && sample < 0.6f) {
                 about50PercentSinceLastBang = true;
