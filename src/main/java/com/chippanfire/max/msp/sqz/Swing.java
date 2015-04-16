@@ -14,25 +14,35 @@ class Swing {
     private static final float MAX = 1f;
 
     private final List<Float> swingLookupValues;
+    private final int numberOfSteps;
     private final int numberOfSwingSteps;
     private final float lengthOfSwingRepetition;
     private final boolean isUnswung;
 
-    static Swing unswung() {
-        return new Swing(1, NO_INTERPOLATION);
+    static Swing unswung(int numberOfSteps) {
+        return new Swing(numberOfSteps, NO_INTERPOLATION);
     }
 
     /**
      * @param numberOfSteps
      * @param swingLookupValues
      */
-    Swing (int numberOfSteps, List<Float> swingLookupValues) {
+    private Swing (int numberOfSteps, List<Float> swingLookupValues) {
         this.swingLookupValues = swingLookupValues;
+        this.numberOfSteps = numberOfSteps;
 
         numberOfSwingSteps = this.swingLookupValues.size() - 1;
         lengthOfSwingRepetition = (float) numberOfSwingSteps / numberOfSteps;
 
         isUnswung = NO_INTERPOLATION.equals(this.swingLookupValues);
+    }
+
+    Swing withSwingValues(List<Float> swingValues) {
+        return new Swing(this.numberOfSteps, swingValues);
+    }
+
+    Swing withNumberOfSteps(int numberOfSteps) {
+        return new Swing(numberOfSteps, this.swingLookupValues);
     }
 
     float process (float index) {

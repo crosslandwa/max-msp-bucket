@@ -16,7 +16,7 @@ public class MspStepper extends MSPPerformer {
     private static final String[] INLET_ASSIST = new String[] {"input (sig)"};
     private static final String[] OUTLET_ASSIST = new String[] {"step (int)"};
 
-    private final MspStepperImpl impl = new MspStepperImpl(MaxCommsFactory.proxy(this, 0));
+    private final MspStepperImpl impl = new MspStepperImpl(MaxCommsFactory.proxy(this, 0), 32);
 
     public MspStepper() {
         declareInlets(new int[]{SIGNAL});

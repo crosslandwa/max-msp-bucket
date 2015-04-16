@@ -11,18 +11,18 @@ import java.util.List;
  * the input ramp rolls over
  */
 class MspStepperImpl {
-    private static final int NUMBER_OF_STEPS = 32;
-
     private final Ramp ramp;
     private final StepDetector stepDetector;
     private final RampDetector rampDetector;
-    private Swing swing = Swing.unswung();
+    private Swing swing;
 
-    MspStepperImpl(MaxComms maxComms) {
-        stepDetector = new StepDetector(maxComms).setNumberOfSteps(NUMBER_OF_STEPS);
+    MspStepperImpl(MaxComms maxComms, int numberOfSteps) {
+        stepDetector = new StepDetector(maxComms).setNumberOfSteps(numberOfSteps);
 
-        ramp = new Ramp().setNumberOfSteps(NUMBER_OF_STEPS);
+        ramp = new Ramp().setNumberOfSteps(numberOfSteps);
         rampDetector = new RampDetector(new RampStartActions(ramp), new RampStopActions(stepDetector, ramp));
+
+        swing = Swing.unswung(numberOfSteps);
     }
 
     void process(float sample) {
@@ -40,7 +40,7 @@ class MspStepperImpl {
      * Update swing settings
      */
     synchronized void updateSwing(List<Float> values) {
-        swing = new Swing(NUMBER_OF_STEPS, values);
+        swing = swing.withSwingValues(values);
     }
 
     void rampTimeInSamples(float rampTimeInSamples) {
@@ -49,5 +49,11 @@ class MspStepperImpl {
 
     void jumpToStep(int nextStep) {
         ramp.setNextStep(nextStep);
+    }
+
+    synchronized void numberOfSteps(int numberOfSteps) {
+        stepDetector.setNumberOfSteps(numberOfSteps);
+        swing = swing.withNumberOfSteps(numberOfSteps);
+        ramp.setNumberOfSteps(numberOfSteps);
     }
 }

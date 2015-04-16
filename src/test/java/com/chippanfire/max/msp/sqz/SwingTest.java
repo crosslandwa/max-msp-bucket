@@ -12,13 +12,11 @@ public class SwingTest {
 
     @BeforeMethod
     public void setUp() throws Exception {
-        swing = new Swing(4, Arrays.asList(0f, 0.25f, 0.3f, 0.75f, 1f));
+        swing = swing.unswung(4);
     }
 
     @Test
     public void noInterpolationWhenNoSwing() throws Exception {
-        swing = swing.unswung();
-
         assertEquals(swing.process(0f), 0f);
         assertEquals(swing.process(0.5f), 0.5f);
         assertEquals(swing.process(1f), 1f);
@@ -26,6 +24,8 @@ public class SwingTest {
 
     @Test
     public void interpolates() throws Exception {
+        swing = swing.withSwingValues(Arrays.asList(0f, 0.25f, 0.3f, 0.75f, 1f));
+
         assertEquals(swing.process(0f), 0f);
         assertEquals(swing.process(0.125f), 0.125f);
         assertEquals(swing.process(0.25f), 0.25f);
