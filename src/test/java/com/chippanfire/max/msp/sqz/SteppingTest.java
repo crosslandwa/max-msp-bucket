@@ -1,10 +1,29 @@
 package com.chippanfire.max.msp.sqz;
 
+import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
+
+import java.util.LinkedHashMap;
 
 import static org.testng.Assert.assertEquals;
 
 public class SteppingTest extends MspStepperImplBaseTest {
+
+    @Test
+    public void startsCleanly() throws Exception {
+        rampStopped();
+        rampStopped();
+        fullRamp();
+        fullRamp();
+
+        AssertJUnit.assertEquals(
+            new LinkedHashMap<Integer, Integer>() {{
+                put(11, 0);
+                put(111, 1);
+            }},
+            stubMaxComms.values()
+        );
+    }
 
     @Test
     public void outputsEachStep() throws Exception {
