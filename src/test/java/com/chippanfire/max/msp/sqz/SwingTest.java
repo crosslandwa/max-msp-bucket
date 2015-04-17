@@ -89,7 +89,7 @@ public class SwingTest extends MspStepperImplBaseTest {
         );
     }
 
-    @Test(enabled = false)
+    @Test
     public void extremeSwingCausesZigZagStepping() throws Exception {
         stepper.updateSwing(Arrays.asList(0f, 1f, 0.5f, 0f, 1f));
 
@@ -99,21 +99,27 @@ public class SwingTest extends MspStepperImplBaseTest {
         fullRamp();
         process(new float[] {0f, 0.01f});
 
+        /*
+         * Comments show nominal times expect steps to happen. Actual values reflect that stepping actually occurs at
+         * a 'close enough' time (i.e. accurate within a couple of samples)
+         */
         assertEquals(
             new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(26, 1);
-                put(51, 2);
-                put(76, 3);
-                put(101, 4);
-                put(151, 3);
-                put(201, 2);
-                put(251, 1);
-                put(301, 0);
-                put(326, 1);
-                put(351, 2);
-                put(376, 3);
-                put(401, 4);
+                put(1, 0);      // 1
+                put(26, 1);     // 26
+                put(52, 2);     // 51
+                put(77, 3);     // 76
+                put(101, 4);    // 101
+
+                put(147, 3);    // 151
+                put(197, 2);    // 201
+                put(247, 1);    // 251
+                put(297, 0);    // 301
+
+                put(326, 1);    // 326
+                put(352, 2);    // 351
+                put(377, 3);    // 376
+                put(401, 4);    // 401
             }},
             stubMaxComms.values()
         );
