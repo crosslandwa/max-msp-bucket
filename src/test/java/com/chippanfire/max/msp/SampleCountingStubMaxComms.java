@@ -1,8 +1,6 @@
 package com.chippanfire.max.msp;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SampleCountingStubMaxComms implements MaxComms {
@@ -24,18 +22,8 @@ public class SampleCountingStubMaxComms implements MaxComms {
         }
     }
 
-    public int latest() {
-        List<Map.Entry<Integer,Integer>> entryList = new ArrayList<Map.Entry<Integer, Integer>>(values.entrySet());
-        Map.Entry<Integer, Integer> lastEntry = entryList.get(entryList.size() - 1);
-        return lastEntry.getValue();
-    }
-
     public Map<Integer, Integer> values() {
         return values;
-    }
-
-    public int messageCount() {
-        return values.size();
     }
 
     public void reset() {
