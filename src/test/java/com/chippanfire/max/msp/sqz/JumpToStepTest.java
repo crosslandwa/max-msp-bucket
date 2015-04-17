@@ -2,81 +2,78 @@ package com.chippanfire.max.msp.sqz;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import java.util.LinkedHashMap;
+
+import static junit.framework.Assert.assertEquals;
+
 
 public class JumpToStepTest extends MspStepperImplBaseTest {
 
     @Test
     public void canJumpToStep() throws Exception {
         rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 0);
-        assertEquals(stubMaxComms.messageCount(), 1);
-
-        rampSecondHalf().rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 1);
-        assertEquals(stubMaxComms.messageCount(), 2);
+        rampSecondHalf();
+        rampFirstHalf();
 
         stepper.jumpToStep(5);
 
         rampSecondHalf();
-
-        assertEquals(stubMaxComms.latest(), 1);
-        assertEquals(stubMaxComms.messageCount(), 2);
-
+        rampFirstHalf();
+        rampSecondHalf();
         rampFirstHalf();
 
-        assertEquals(stubMaxComms.latest(), 5);
-        assertEquals(stubMaxComms.messageCount(), 3);
-
-        rampSecondHalf().rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 6);
-        assertEquals(stubMaxComms.messageCount(), 4);
+        assertEquals(
+            new LinkedHashMap<Integer, Integer>(){{
+                put(1, 0);
+                put(101, 1);
+                put(201, 5);
+                put(301, 6);
+            }},
+            stubMaxComms.values()
+        );
     }
 
     @Test
     public void canJumpToStepRepeatedly() throws Exception {
         rampFirstHalf();
 
-        assertEquals(stubMaxComms.latest(), 0);
-        assertEquals(stubMaxComms.messageCount(), 1);
-
         stepper.jumpToStep(5);
-
-        rampSecondHalf().rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 5);
-        assertEquals(stubMaxComms.messageCount(), 2);
+        rampSecondHalf();
+        rampFirstHalf();
 
         stepper.jumpToStep(6);
+        rampSecondHalf();
+        rampFirstHalf();
 
-        rampSecondHalf().rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 6);
-        assertEquals(stubMaxComms.messageCount(), 3);
+        assertEquals(
+            new LinkedHashMap<Integer, Integer>(){{
+                put(1, 0);
+                put(101, 5);
+                put(201, 6);
+            }},
+            stubMaxComms.values()
+        );
     }
 
     @Test
     public void canJumpRepeatedlyToSameStep() throws Exception {
         rampFirstHalf();
 
-        assertEquals(stubMaxComms.latest(), 0);
-        assertEquals(stubMaxComms.messageCount(), 1);
+        stepper.jumpToStep(5);
+        rampSecondHalf();
+        rampFirstHalf();
 
         stepper.jumpToStep(5);
+        rampSecondHalf();
+        rampFirstHalf();
 
-        rampSecondHalf().rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 5);
-        assertEquals(stubMaxComms.messageCount(), 2);
-
-        stepper.jumpToStep(5);
-
-        rampSecondHalf().rampFirstHalf();
-
-        assertEquals(stubMaxComms.latest(), 5);
-        assertEquals(stubMaxComms.messageCount(), 3);
+        assertEquals(
+            new LinkedHashMap<Integer, Integer>(){{
+                put(1, 0);
+                put(101, 5);
+                put(201, 5);
+            }},
+            stubMaxComms.values()
+        );
     }
 }
