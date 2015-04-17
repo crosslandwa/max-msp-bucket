@@ -11,14 +11,6 @@ public class StubMaxComms implements MaxComms {
         return true;
     }
 
-    /**
-     * @param i Captured output (indexed from 0)
-     * @return
-     */
-    public Integer capturedAt(int i) {
-        return values.get(i);
-    }
-
     public int latest() {
         return values.get(values.size() - 1);
     }

@@ -22,7 +22,7 @@ public class StepDetectorTest {
     public void detectsPositiveTransitionsOverThresholds() throws Exception {
         stepDetector.process(0.001f);
         assertEquals(1, stubMaxComms.messageCount());
-        assertEquals(new Integer(0), stubMaxComms.capturedAt(0));
+        assertEquals(0, stubMaxComms.latest());
 
         stepDetector.process(0.1f);
         stepDetector.process(0.2f);
@@ -30,14 +30,14 @@ public class StepDetectorTest {
 
         stepDetector.process(0.3f);
         assertEquals(2, stubMaxComms.messageCount());
-        assertEquals(new Integer(1), stubMaxComms.capturedAt(1));
+        assertEquals(1, stubMaxComms.latest());
 
         stepDetector.process(0.4f);
         assertEquals(2, stubMaxComms.messageCount());
 
         stepDetector.process(0.5f);
         assertEquals(3, stubMaxComms.messageCount());
-        assertEquals(new Integer(2), stubMaxComms.capturedAt(2));
+        assertEquals(2, stubMaxComms.latest());
 
         stepDetector.process(0.6f);
         stepDetector.process(0.7f);
@@ -45,61 +45,61 @@ public class StepDetectorTest {
 
         stepDetector.process(0.8f);
         assertEquals(4, stubMaxComms.messageCount());
-        assertEquals(new Integer(3), stubMaxComms.capturedAt(3));
+        assertEquals(3, stubMaxComms.latest());
 
         stepDetector.process(0.9f);
         assertEquals(4, stubMaxComms.messageCount());
 
         stepDetector.process(0.1f);
         assertEquals(5, stubMaxComms.messageCount());
-        assertEquals(new Integer(0), stubMaxComms.capturedAt(4));
+        assertEquals(0, stubMaxComms.latest());
     }
 
     @Test
     public void detectsNegativeTransitionsOverThresholds() throws Exception {
         stepDetector.process(0.001f);
         assertEquals(1, stubMaxComms.messageCount());
-        assertEquals(new Integer(0), stubMaxComms.capturedAt(0));
+        assertEquals(0, stubMaxComms.latest());
 
         stepDetector.process(0.9f);
         assertEquals(2, stubMaxComms.messageCount());
-        assertEquals(new Integer(3), stubMaxComms.capturedAt(1));
+        assertEquals(3, stubMaxComms.latest());
 
         stepDetector.process(0.8f);
         stepDetector.process(0.7f);
         assertEquals(3, stubMaxComms.messageCount());
-        assertEquals(new Integer(2), stubMaxComms.capturedAt(2));
+        assertEquals(2, stubMaxComms.latest());
 
         stepDetector.process(0.6f);
         stepDetector.process(0.5f);
         stepDetector.process(0.4f);
         assertEquals(4, stubMaxComms.messageCount());
-        assertEquals(new Integer(1), stubMaxComms.capturedAt(3));
+        assertEquals(1, stubMaxComms.latest());
 
         stepDetector.process(0.3f);
         stepDetector.process(0.2f);
         assertEquals(5, stubMaxComms.messageCount());
-        assertEquals(new Integer(0), stubMaxComms.capturedAt(4));
+        assertEquals(0, stubMaxComms.latest());
 
         stepDetector.process(0.1f);
         stepDetector.process(0f);
         stepDetector.process(0.9f);
         assertEquals(6, stubMaxComms.messageCount());
-        assertEquals(new Integer(3), stubMaxComms.capturedAt(5));
+        assertEquals(3, stubMaxComms.latest());
     }
 
     @Test
     public void detectsPostiveThenNegativeTransitionsOverSameThreshold() throws Exception {
         stepDetector.process(0.2f);
         assertEquals(1, stubMaxComms.messageCount());
-        assertEquals(new Integer(0), stubMaxComms.capturedAt(0));
+        assertEquals(0, stubMaxComms.latest());
 
         stepDetector.process(0.3f);
         assertEquals(2, stubMaxComms.messageCount());
-        assertEquals(new Integer(1), stubMaxComms.capturedAt(1));
+        assertEquals(1, stubMaxComms.latest());
 
         stepDetector.process(0.2f);
         assertEquals(3, stubMaxComms.messageCount());
-        assertEquals(new Integer(0), stubMaxComms.capturedAt(2));
+        assertEquals(0, stubMaxComms.latest());
     }
 }
