@@ -1,6 +1,6 @@
 package com.chippanfire.max.msp.sqz;
 
-import com.chippanfire.max.msp.StubMaxComms;
+import com.chippanfire.max.msp.SampleCountingStubMaxComms;
 import org.testng.annotations.BeforeMethod;
 
 /**
@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
  */
 public abstract class MspStepperImplBaseTest {
     protected MspStepperImpl stepper;
-    protected final StubMaxComms stubMaxComms = new StubMaxComms();
+    protected final SampleCountingStubMaxComms stubMaxComms = new SampleCountingStubMaxComms();
 
     @BeforeMethod
     public void setUp() throws Exception {
@@ -34,6 +34,7 @@ public abstract class MspStepperImplBaseTest {
 
     protected final void process(Float... values) {
         for (Float value : values) {
+            stubMaxComms.updateSampleIndex();
             stepper.process(value);
         }
     }
