@@ -20,10 +20,10 @@ public class SwingTest extends MspStepperImplBaseTest {
         assertEquals(
             new LinkedHashMap<Integer, Integer>(){{
                 put(1, 0);
-                put(11, 1);
-                put(21, 2);
-                put(31, 3);
-                put(41, 4);
+                put(101, 1);
+                put(201, 2);
+                put(301, 3);
+                put(401, 4);
             }},
             stubMaxComms.values()
         );
@@ -45,13 +45,13 @@ public class SwingTest extends MspStepperImplBaseTest {
         assertEquals(
             new LinkedHashMap<Integer, Integer>(){{
                 put(1, 0);
-                put(8, 1);
-                put(21, 2);
-                put(28, 3);
-                put(41, 4);
-                put(48, 5);
-                put(61, 6);
-                put(68, 7);
+                put(68, 1);
+                put(201, 2);
+                put(268, 3);
+                put(401, 4);
+                put(468, 5);
+                put(601, 6);
+                put(668, 7);
             }},
             stubMaxComms.values()
         );
@@ -73,13 +73,13 @@ public class SwingTest extends MspStepperImplBaseTest {
         assertEquals(
             new LinkedHashMap<Integer, Integer>(){{
                 put(1, 0);
-                put(11, 1);
-                put(26, 2);
-                put(31, 3);
-                put(41, 4);
-                put(51, 5);
-                put(66, 6);
-                put(71, 7);
+                put(101, 1);
+                put(246, 2);
+                put(301, 3);
+                put(401, 4);
+                put(501, 5);
+                put(646, 6);
+                put(701, 7);
             }},
             stubMaxComms.values()
         );
@@ -101,22 +101,22 @@ public class SwingTest extends MspStepperImplBaseTest {
         assertEquals(
             new LinkedHashMap<Integer, Integer>(){{
                 put(1, 0);
-                put(5, 1);
-                put(8, 2);
-                put(11, 3);
-                put(12, 2);
-                put(17, 1);
-                put(31, 2);
-                put(36, 3);
+                put(35, 1);
+                put(68, 2);
+                put(101, 3);
+                put(102, 2);
+                put(152, 1);
+                put(301, 2);
+                put(352, 3);
 
-                put(41, 4);
-                put(45, 5);
-                put(48, 6);
-                put(51, 7);
-                put(52, 6);
-                put(57, 5);
-                put(71, 6);
-                put(76, 7);
+                put(401, 4);
+                put(435, 5);
+                put(468, 6);
+                put(501, 7);
+                put(502, 6);
+                put(552, 5);
+                put(701, 6);
+                put(751, 7);
             }},
             stubMaxComms.values()
         );
