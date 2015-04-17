@@ -84,4 +84,41 @@ public class SwingTest extends MspStepperImplBaseTest {
             stubMaxComms.values()
         );
     }
+
+    @Test
+    public void extremeSwingCausesZigZagStepping() throws Exception {
+        stepper.updateSwing(Arrays.asList(0f, 0.75f, 0.25f, 0.5f, 1f));
+
+        fullRamp();
+        fullRamp();
+        fullRamp();
+        fullRamp();
+        fullRamp();
+        fullRamp();
+        fullRamp();
+        fullRamp();
+
+        assertEquals(
+            new LinkedHashMap<Integer, Integer>(){{
+                put(1, 0);
+                put(5, 1);
+                put(8, 2);
+                put(11, 3);
+                put(12, 2);
+                put(17, 1);
+                put(31, 2);
+                put(36, 3);
+
+                put(41, 4);
+                put(45, 5);
+                put(48, 6);
+                put(51, 7);
+                put(52, 6);
+                put(57, 5);
+                put(71, 6);
+                put(76, 7);
+            }},
+            stubMaxComms.values()
+        );
+    }
 }
