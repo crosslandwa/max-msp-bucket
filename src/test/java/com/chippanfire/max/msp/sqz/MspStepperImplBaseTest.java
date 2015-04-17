@@ -54,7 +54,7 @@ public abstract class MspStepperImplBaseTest {
         return this;
     }
 
-    private void process(float[] values) {
+    protected void process(float[] values) {
         for (Float value : values) {
             stubMaxComms.updateSampleIndex();
             stepper.process(value);
