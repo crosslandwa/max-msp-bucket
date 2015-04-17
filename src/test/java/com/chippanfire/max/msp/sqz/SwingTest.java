@@ -1,7 +1,5 @@
 package com.chippanfire.max.msp.sqz;
 
-import com.chippanfire.max.msp.SampleCountingStubMaxComms;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -9,16 +7,7 @@ import java.util.LinkedHashMap;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-public class SwingTest {
-    private MspStepperImpl stepper;
-    private SampleCountingStubMaxComms countingStubMaxComms = new SampleCountingStubMaxComms();
-
-    @BeforeMethod
-    public void setUp() throws Exception {
-        countingStubMaxComms.reset();
-        stepper = new MspStepperImpl(countingStubMaxComms, 32);
-        stepper.rampTimeInSamples(10);
-    }
+public class SwingTest extends MspStepperImplBaseTest {
 
     @Test
     public void stepsAtRegularIntervalsWithoutSwing() throws Exception {
@@ -37,7 +26,7 @@ public class SwingTest {
                 put(31, 3);
                 put(41, 4);
             }},
-            countingStubMaxComms.values()
+            stubMaxComms.values()
         );
     }
 
@@ -66,7 +55,7 @@ public class SwingTest {
                 put(61, 6);
                 put(68, 7);
             }},
-            countingStubMaxComms.values()
+            stubMaxComms.values()
         );
     }
 
@@ -96,14 +85,7 @@ public class SwingTest {
                 put(66, 6);
                 put(71, 7);
             }},
-            countingStubMaxComms.values()
+            stubMaxComms.values()
         );
-    }
-
-    private void process(Float... samples) {
-        for (Float sample : samples) {
-            countingStubMaxComms.updateSampleIndex();
-            stepper.process(sample);
-        }
     }
 }
