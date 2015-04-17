@@ -7,6 +7,14 @@ import com.chippanfire.max.msp.MaxComms;
  * Outputs every time the input passes some threshold (in either direction)
  *
  * Threshold values = 0 .. N * (1 / N) where N is the number of steps
+ *
+ * At 32 steps, threshold delta is 0.03125
+ * At 44.1Khz, input ramp of 4n at 60bpm (i.e. one ramp per second), one tenth threshold ~= 138 samples (0.003s) ~= 128th / 5
+ *
+ * At 44.1Khz, input ramp of 16n at 120bpm takes 0.125s (5512.5 samples), there sample delta (untransformed) is 0.00018
+ * One tenth threshold ~ 17 samples
+ *  - i.e. we will detect steps at very close to when transition 'should be', but could miss steps if the incoming rate
+ *  of change is too great...
  */
 class StepDetector {
     private final MaxComms maxComms;
