@@ -50,7 +50,7 @@ public abstract class MspStepperImplBaseTest {
     }
 
     protected final MspStepperImplBaseTest rampStopped() {
-        process(new float[] {0f, 0f, 0f, 0f, 0f});
+        process(new float[] {0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f});
         return this;
     }
 
