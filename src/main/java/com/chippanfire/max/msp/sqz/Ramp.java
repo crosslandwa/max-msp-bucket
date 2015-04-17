@@ -38,8 +38,6 @@ class Ramp {
         return isPlaying;
     }
 
-
-    // TODO do not divide by numberOfSteps in advance - instead scale nextSample/step/increment when they change
     float advance() {
         float output = (nextSample + step) / numberOfSteps;
         nextSample = Math.min(nextSample + increment, 1);

@@ -29,7 +29,6 @@ class RampDetector {
         this.rampStopAction = rampStopAction;
     }
 
-
     void process(float sample) {
         float delta = sample - lastSample;
 
