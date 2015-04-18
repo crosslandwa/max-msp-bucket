@@ -17,4 +17,8 @@ class MaxProxy implements MaxComms {
     public boolean outlet(int value) {
         return maxObject.outlet(outletIndex, value);
     }
+
+    public void post(String message) {
+        MaxObject.post(message);
+    }
 }

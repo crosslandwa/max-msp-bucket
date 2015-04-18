@@ -5,4 +5,6 @@ package com.chippanfire.max.msp;
  */
 public interface MaxComms {
     boolean outlet(int value);
+
+    void post(String message);
 }

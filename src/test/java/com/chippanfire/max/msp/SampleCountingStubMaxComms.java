@@ -14,6 +14,10 @@ public class SampleCountingStubMaxComms implements MaxComms {
         return true;
     }
 
+    public void post(String message) {
+        // No implementation needed
+    }
+
     public void updateSampleIndex(){
         if (count == null) {
             count = 0;
