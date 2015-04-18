@@ -9,6 +9,12 @@ import java.util.List;
  *
  * Takes an input ramp with an assumed frequency of 1 'beat', and outputs a new step (between 0 and N) every time
  * the input ramp rolls over
+ *
+ * Additionally implements swing via the provision of a list of values that describe a 'swing profile'
+ *  - a list of 0, 0.5, 1 (a linear line) would introduce no swing
+ *  - a list of 0, 0.3, 1 (a non-linear line) causes every second beat to be late
+ *
+ * The list length controls over how many beats the swing profile is repeated
  */
 class MspStepperImpl {
     private final Ramp ramp;
