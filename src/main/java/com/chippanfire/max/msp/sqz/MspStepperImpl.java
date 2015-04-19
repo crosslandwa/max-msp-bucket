@@ -14,7 +14,7 @@ import java.util.List;
  *  - a list of 0, 0.5, 1 (a linear line) would introduce no swing
  *  - a list of 0, 0.3, 1 (a non-linear line) causes every second beat to be late
  *
- * The list length controls over how many beats the swing profile is repeated
+ * The list length determines how many beats the swing profile is repeated over
  */
 class MspStepperImpl {
     private final Ramp ramp;
@@ -51,6 +51,7 @@ class MspStepperImpl {
 
     void rampTimeInSamples(float rampTimeInSamples) {
         ramp.setRampTime(rampTimeInSamples);
+        rampDetector.setExpectedRampTime(rampTimeInSamples);
     }
 
     void jumpToStep(int nextStep) {

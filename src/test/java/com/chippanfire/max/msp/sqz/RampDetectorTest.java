@@ -37,6 +37,7 @@ public class RampDetectorTest {
 
     @Test
     public void stepsOncePerRamp() throws Exception {
+        rampDetector.setExpectedRampTime(6);
         process(
             0, 0.05f, 0.25f, 0.5f, 0.75f, 0.95f,
             0, 0.05f, 0.25f, 0.5f, 0.75f, 0.95f,
@@ -51,6 +52,7 @@ public class RampDetectorTest {
 
     @Test
     public void doesNotStepWhenInputRampStops() throws Exception {
+        rampDetector.setExpectedRampTime(8);
         process(
             0, 0.05f, 0.2f, 0.4f, 0.5f, 0.6f, 0.8f, 0.95f,
             0, 0.05f, 0.2f, 0.4f, 0.5f, 0.6f, 0.8f, 0.95f,
@@ -65,6 +67,7 @@ public class RampDetectorTest {
 
     @Test
     public void rampStopDetected() throws Exception {
+        rampDetector.setExpectedRampTime(6);
         process(
             0, 0.05f, 0.2f, 0.4f, 0.5f, 0.6f,
             0, 0, 0
@@ -77,6 +80,7 @@ public class RampDetectorTest {
 
     @Test
     public void rampStopsAndStarts() throws Exception {
+        rampDetector.setExpectedRampTime(8);
         process(
             0, 0.05f, 0.2f, 0.4f, 0.5f, 0.6f, 0.96f, 0.97f,
             0, 0, 0,
@@ -95,6 +99,7 @@ public class RampDetectorTest {
 
     @Test
     public void rampStopsAndStartsWhenOnlyHalfRampsOccur() throws Exception {
+        rampDetector.setExpectedRampTime(5);
         process(
             0, 0.05f, 0.2f, 0.4f, 0.6f,
             0, 0, 0,
@@ -115,6 +120,7 @@ public class RampDetectorTest {
      */
     @Test
     public void canHandleJumpyShitInput() throws Exception {
+        rampDetector.setExpectedRampTime(8);
         process(
             0, 0.05f, 0.2f, 0.4f, 0.5f, 0.7f, 0.99f,
             0.001f, 0.002f, 0.9985f, 0.999f,

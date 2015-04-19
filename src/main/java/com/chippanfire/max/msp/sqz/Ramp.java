@@ -5,7 +5,7 @@ package com.chippanfire.max.msp.sqz;
  *  - outputs an incremental value each time advance() called
  *  - jumps to the next step when step() called
  *  - ramp will stop incrementing when advance() called if it has reached the 'max' for the given step (max then held)
- *  - can be stoped to start counting from 0 again
+ *  - can be stopped to start counting from 0 again
  */
 class Ramp {
     private Integer targetNextStep = null;
@@ -31,6 +31,7 @@ class Ramp {
         isPlaying = false;
         nextSample = 0;
         step = 0;
+        targetNextStep = null;
         return this;
     }
 
@@ -57,8 +58,6 @@ class Ramp {
 
     /**
      * Set max value that is stepped to. Note that a max of 32 results in output of 0 -> 31.9999 (i.e. max never reached)
-     * @param max
-     * @return
      */
     Ramp setNumberOfSteps(int max) {
         numberOfSteps = max;

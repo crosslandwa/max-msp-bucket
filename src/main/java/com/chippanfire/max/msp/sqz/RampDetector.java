@@ -13,6 +13,8 @@ import com.chippanfire.max.msp.Bangable;
  *  step reliably detected and output
  *
  *  TODO Should this/Ramp/RampStartActions/RampStopActions be combined?
+ *
+ *  TODO samplesSinceLastTransition is an untested guard against super fast input ramps (seen when starting in Max) - add test!
  */
 class RampDetector {
     private final Bangable rampStartAction;
@@ -23,6 +25,9 @@ class RampDetector {
     private boolean about50PercentSinceLastBang = true;
     private boolean above90PercentSinceLastBang = true;
     private boolean isStopped = true;
+    private float thirdExpectedRampTime = 10000f;
+
+    private int samplesSinceLastTransition = 0;
 
     RampDetector(Bangable rampStartAction, Bangable rampStopAction) {
         this.rampStartAction = rampStartAction;
@@ -34,23 +39,46 @@ class RampDetector {
 
         if (delta > 0) {
             isStopped = false;
-            if (about50PercentSinceLastBang && above90PercentSinceLastBang && sample <= 0.1f) {
+            samplesSinceLastTransition += 1;
+            if (about50PercentSinceLastBang && above90PercentSinceLastBang && below10Percent(sample)) {
                 above90PercentSinceLastBang = false;
                 about50PercentSinceLastBang = false;
-                rampStartAction.bang();
-            } else if (about50PercentSinceLastBang && sample >= 0.9f) {
-                above90PercentSinceLastBang = true;
-            } else if (sample > 0.4f && sample < 0.6f) {
+                if ((samplesSinceLastTransition <= 1) || (samplesSinceLastTransition >= thirdExpectedRampTime)) {
+                    rampStartAction.bang();
+                }
+                samplesSinceLastTransition = 0;
+            } else if (!about50PercentSinceLastBang && about50Percent(sample)) {
                 about50PercentSinceLastBang = true;
+                samplesSinceLastTransition = 0;
+            } else if (about50PercentSinceLastBang && !above90PercentSinceLastBang && over90Percent(sample)) {
+                above90PercentSinceLastBang = true;
             }
         } else if (!isStopped && (delta == 0) && (lastDelta == 0)) {
             isStopped = true;
             above90PercentSinceLastBang = true;
             about50PercentSinceLastBang = true;
+            samplesSinceLastTransition = 0;
             rampStopAction.bang();
         }
 
         lastDelta = delta;
         lastSample = sample;
+    }
+
+    private boolean below10Percent(float sample) {
+        return sample <= 0.1f;
+    }
+
+    private boolean over90Percent(float sample) {
+        return sample >= 0.9f;
+    }
+
+    private boolean about50Percent(float sample) {
+        return sample > 0.4f && sample < 0.6f;
+    }
+
+    RampDetector setExpectedRampTime(float rampTimeInSamples) {
+        thirdExpectedRampTime = rampTimeInSamples / 3;
+        return this;
     }
 }
