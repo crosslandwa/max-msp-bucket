@@ -3,6 +3,10 @@ package com.chippanfire.max.msp.sqz;
 import com.chippanfire.max.msp.SampleCountingStubMaxComms;
 import org.testng.annotations.BeforeMethod;
 
+import java.util.Map;
+
+import static junit.framework.Assert.assertEquals;
+
 /**
  * Base setup for tests interacting with MspStepperImpl
  */
@@ -10,7 +14,7 @@ public abstract class MspStepperImplBaseTest {
     private static final int RAMP_LENGTH = 100;
     private static final int HALF = RAMP_LENGTH / 2;
     protected MspStepperImpl stepper;
-    protected final SampleCountingStubMaxComms stubMaxComms = new SampleCountingStubMaxComms();
+    private final SampleCountingStubMaxComms stubMaxComms = new SampleCountingStubMaxComms();
 
     private final float[] firstHalfRamp = new float[HALF];
     private final float[] secondHalfRamp = new float[HALF];
@@ -54,10 +58,14 @@ public abstract class MspStepperImplBaseTest {
         return this;
     }
 
-    protected void process(float[] values) {
+    protected final void process(float[] values) {
         for (Float value : values) {
             stubMaxComms.updateSampleIndex();
             stepper.process(value);
         }
+    }
+
+    protected final void assertStepsOutputAt(Map<Integer,Integer> expected) {
+        assertEquals(expected, stubMaxComms.values());
     }
 }

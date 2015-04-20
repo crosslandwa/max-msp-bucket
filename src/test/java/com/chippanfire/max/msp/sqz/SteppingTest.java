@@ -1,11 +1,8 @@
 package com.chippanfire.max.msp.sqz;
 
-import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
-
-import static junit.framework.Assert.assertEquals;
 
 public class SteppingTest extends MspStepperImplBaseTest {
 
@@ -22,15 +19,12 @@ public class SteppingTest extends MspStepperImplBaseTest {
         fullRamp();
         process(new float[]{0f, 0.01f});
 
-        AssertJUnit.assertEquals(
-            new LinkedHashMap<Integer, Integer>() {{
-                put(11, 0);
-                put(111, 1);
-                put(163, 0);
-                put(263, 1);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(11, 0);
+            put(111, 1);
+            put(163, 0);
+            put(263, 1);
+        }});
     }
 
     @Test
@@ -39,14 +33,11 @@ public class SteppingTest extends MspStepperImplBaseTest {
         fullRamp();
         fullRamp();
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(101, 1);
-                put(201, 2);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 1);
+            put(201, 2);
+        }});
     }
 
     @Test
@@ -57,35 +48,29 @@ public class SteppingTest extends MspStepperImplBaseTest {
         fullRamp();
         fullRamp();
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(101, 1);
-                put(201, 2);
-                put(301, 0);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 1);
+            put(201, 2);
+            put(301, 0);
+        }});
     }
 
     @Test
     public void restartsAtZeroAfterStopping() throws Exception {
         fullRamp();
         fullRamp();
-        process(new float[] {0f, 0.01f});
+        process(new float[]{0f, 0.01f});
 
         rampStopped();
         fullRamp();
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(101, 1);
-                put(201, 2);
-                put(213, 0);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 1);
+            put(201, 2);
+            put(213, 0);
+        }});
     }
 
     @Test
@@ -102,20 +87,17 @@ public class SteppingTest extends MspStepperImplBaseTest {
         fullRamp(); // 8 [on next start]
         fullRamp(); // 9 [on next start]
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>() {{
-                put(1, 0);
-                put(101, 1);
-                put(201, 2);
-                put(302, 3);
-                put(431, 4);
-                put(532, 5);
-                put(661, 6);
-                put(761, 7);
-                put(861, 8);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 1);
+            put(201, 2);
+            put(302, 3);
+            put(431, 4);
+            put(532, 5);
+            put(661, 6);
+            put(761, 7);
+            put(861, 8);
+        }});
     }
 
     @Test
@@ -128,17 +110,14 @@ public class SteppingTest extends MspStepperImplBaseTest {
         fullRamp(); //5 [on next start]
         fullRamp(); //6 [on next start]
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>() {{
-                put(1, 0);
-                put(101, 1);
-                put(201, 2);
-                put(302, 3);
-                put(406, 4);
-                put(506, 5);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 1);
+            put(201, 2);
+            put(302, 3);
+            put(406, 4);
+            put(506, 5);
+        }});
     }
 
     private float[] miniRamp(int miniRampLength) {

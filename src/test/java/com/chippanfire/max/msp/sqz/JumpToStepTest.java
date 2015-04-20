@@ -4,9 +4,6 @@ import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
 
-import static junit.framework.Assert.assertEquals;
-
-
 public class JumpToStepTest extends MspStepperImplBaseTest {
 
     @Test
@@ -22,15 +19,12 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         rampSecondHalf();
         rampFirstHalf();
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(101, 1);
-                put(201, 5);
-                put(301, 6);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 1);
+            put(201, 5);
+            put(301, 6);
+        }});
     }
 
     @Test
@@ -45,14 +39,11 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         rampSecondHalf();
         rampFirstHalf();
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(101, 5);
-                put(201, 6);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 5);
+            put(201, 6);
+        }});
     }
 
     @Test
@@ -67,13 +58,10 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         rampSecondHalf();
         rampFirstHalf();
 
-        assertEquals(
-            new LinkedHashMap<Integer, Integer>(){{
-                put(1, 0);
-                put(101, 5);
-                put(201, 5);
-            }},
-            stubMaxComms.values()
-        );
+        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
+            put(1, 0);
+            put(101, 5);
+            put(201, 5);
+        }});
     }
 }
