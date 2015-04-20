@@ -3,7 +3,6 @@ package com.chippanfire.max.msp.sqz;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 public class SwingTest extends MspStepperImplBaseTest {
 
@@ -15,13 +14,13 @@ public class SwingTest extends MspStepperImplBaseTest {
         fullRamp();
         fullRamp();
 
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);
-            put(101, 1);
-            put(201, 2);
-            put(301, 3);
-            put(401, 4);
-        }});
+        assertStepsOutputAt(
+            stepOutput(1, 0),
+            stepOutput(101, 1),
+            stepOutput(201, 2),
+            stepOutput(301, 3),
+            stepOutput(401, 4)
+        );
     }
 
     @Test
@@ -38,17 +37,17 @@ public class SwingTest extends MspStepperImplBaseTest {
         fullRamp();
         fullRamp();
 
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);
-            put(68, 1);
-            put(201, 2);
-            put(268, 3);
+        assertStepsOutputAt(
+            stepOutput(1, 0),
+            stepOutput(68, 1),
+            stepOutput(201, 2),
+            stepOutput(268, 3),
 
-            put(401, 4);
-            put(468, 5);
-            put(601, 6);
-            put(668, 7);
-        }});
+            stepOutput(401, 4),
+            stepOutput(468, 5),
+            stepOutput(601, 6),
+            stepOutput(668, 7)
+        );
     }
 
     @Test
@@ -65,17 +64,17 @@ public class SwingTest extends MspStepperImplBaseTest {
         fullRamp();
         fullRamp();
 
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);
-            put(101, 1);
-            put(246, 2);
-            put(301, 3);
+        assertStepsOutputAt(
+            stepOutput(1, 0),
+            stepOutput(101, 1),
+            stepOutput(246, 2),
+            stepOutput(301, 3),
 
-            put(401, 4);
-            put(501, 5);
-            put(646, 6);
-            put(701, 7);
-        }});
+            stepOutput(401, 4),
+            stepOutput(501, 5),
+            stepOutput(646, 6),
+            stepOutput(701, 7)
+        );
     }
 
     @Test
@@ -92,22 +91,22 @@ public class SwingTest extends MspStepperImplBaseTest {
          * Comments show nominal times expect steps to happen. Actual values reflect that stepping actually occurs at
          * a 'close enough' time (i.e. accurate within a couple of samples)
          */
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);      // 1
-            put(26, 1);     // 26
-            put(52, 2);     // 51
-            put(77, 3);     // 76
-            put(101, 4);    // 101
+        assertStepsOutputAt(
+            stepOutput(1, 0),      // 1
+            stepOutput(26, 1),     // 26
+            stepOutput(52, 2),     // 51
+            stepOutput(77, 3),     // 76
+            stepOutput(101, 4),    // 101
 
-            put(147, 3);    // 151
-            put(197, 2);    // 201
-            put(247, 1);    // 251
-            put(297, 0);    // 301
+            stepOutput(147, 3),    // 151
+            stepOutput(197, 2),    // 201
+            stepOutput(247, 1),    // 251
+            stepOutput(297, 0),    // 301
 
-            put(326, 1);    // 326
-            put(352, 2);    // 351
-            put(377, 3);    // 376
-            put(401, 4);    // 401
-        }});
+            stepOutput(326, 1),    // 326
+            stepOutput(352, 2),    // 351
+            stepOutput(377, 3),    // 376
+            stepOutput(401, 4)     // 401
+        );
     }
 }

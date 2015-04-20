@@ -3,6 +3,7 @@ package com.chippanfire.max.msp.sqz;
 import com.chippanfire.max.msp.SampleCountingStubMaxComms;
 import org.testng.annotations.BeforeMethod;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -65,7 +66,27 @@ public abstract class MspStepperImplBaseTest {
         }
     }
 
-    protected final void assertStepsOutputAt(Map<Integer,Integer> expected) {
+    protected final void assertStepsOutputAt(StepOutput... expectedSteps) {
+        Map<Integer, Integer> expected = new LinkedHashMap<Integer, Integer>();
+
+        for (StepOutput stepOutput : expectedSteps) {
+            expected.put(stepOutput.sampleIndex, stepOutput.step);
+        }
+
         assertEquals(expected, stubMaxComms.values());
+    }
+
+    protected static final class StepOutput {
+        private final int sampleIndex;
+        private final int step;
+
+        StepOutput(int sampleIndex, int step) {
+            this.sampleIndex = sampleIndex;
+            this.step = step;
+        }
+    }
+
+    StepOutput stepOutput(int sampleIndex, int step) {
+        return new StepOutput(sampleIndex, step);
     }
 }

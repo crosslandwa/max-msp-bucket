@@ -2,8 +2,6 @@ package com.chippanfire.max.msp.sqz;
 
 import org.testng.annotations.Test;
 
-import java.util.LinkedHashMap;
-
 public class JumpToStepTest extends MspStepperImplBaseTest {
 
     @Test
@@ -19,12 +17,12 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         rampSecondHalf();
         rampFirstHalf();
 
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);
-            put(101, 1);
-            put(201, 5);
-            put(301, 6);
-        }});
+        assertStepsOutputAt(
+            stepOutput(1, 0),
+            stepOutput(101, 1),
+            stepOutput(201, 5),
+            stepOutput(301, 6)
+        );
     }
 
     @Test
@@ -39,11 +37,11 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         rampSecondHalf();
         rampFirstHalf();
 
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);
-            put(101, 5);
-            put(201, 6);
-        }});
+        assertStepsOutputAt(
+            stepOutput(1, 0),
+            stepOutput(101, 5),
+            stepOutput(201, 6)
+        );
     }
 
     @Test
@@ -58,10 +56,10 @@ public class JumpToStepTest extends MspStepperImplBaseTest {
         rampSecondHalf();
         rampFirstHalf();
 
-        assertStepsOutputAt(new LinkedHashMap<Integer, Integer>() {{
-            put(1, 0);
-            put(101, 5);
-            put(201, 5);
-        }});
+        assertStepsOutputAt(
+            stepOutput(1, 0),
+            stepOutput(101, 5),
+            stepOutput(201, 5)
+        );
     }
 }
