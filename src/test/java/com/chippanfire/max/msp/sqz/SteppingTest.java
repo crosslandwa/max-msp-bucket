@@ -118,6 +118,29 @@ public class SteppingTest extends MspStepperImplBaseTest {
         );
     }
 
+    @Test
+    public void ignoresStepsWhenInputRampJumpsFromLowBackToHighThenLowAgain() throws Exception {
+        fullRamp(); //1 [on next start]
+        fullRamp(); //2 [on next start]
+        process(new float[]{0f, 0.001f, 0.002f, 0.9985f, 0.999f});
+        fullRamp(); //3 on 95 samples
+        fullRamp(); //4 [on next start] (105 samples after 3)
+        fullRamp(); //5 [on next start]
+        fullRamp(); //6 [on next start]
+
+        assertEquals(
+            new LinkedHashMap<Integer, Integer>() {{
+                put(1, 0);
+                put(101, 1);
+                put(201, 2);
+                put(302, 3);
+                put(406, 4);
+                put(506, 5);
+            }},
+            stubMaxComms.values()
+        );
+    }
+
     private float[] miniRamp(int miniRampLength) {
         float[] miniRamp = new float[miniRampLength];
 
