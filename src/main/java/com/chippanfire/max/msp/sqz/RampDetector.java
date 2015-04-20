@@ -11,10 +11,6 @@ import com.chippanfire.max.msp.Bangable;
  *
  *  Essentially this detector is used to drive an internal instance of Ramp from which swing can be applied and each
  *  step reliably detected and output
- *
- *  TODO Should this/Ramp/RampStartActions/RampStopActions be combined?
- *
- *  TODO samplesSinceLastTransition is an untested guard against super fast input ramps (seen when starting in Max) - add test!
  */
 class RampDetector {
     private final Bangable rampStartAction;

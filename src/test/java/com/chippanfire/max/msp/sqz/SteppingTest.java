@@ -88,4 +88,42 @@ public class SteppingTest extends MspStepperImplBaseTest {
         );
     }
 
+    @Test
+    public void ignoresSpuriousRapidRamps() throws Exception {
+        fullRamp(); //1 [on next start]
+        fullRamp(); //2 [on next start]
+        process(miniRamp(30));
+        fullRamp(); // 3 after 70 samples
+        fullRamp(); //4 [on next start] (130 samples after 3)
+        process(miniRamp(30));
+        fullRamp(); // 5 after 70
+        fullRamp(); // 6 [on next start] (130 samples after 5)
+        fullRamp(); // 7 [on next start]
+        fullRamp(); // 8 [on next start]
+        fullRamp(); // 9 [on next start]
+
+        assertEquals(
+            new LinkedHashMap<Integer, Integer>() {{
+                put(1, 0);
+                put(101, 1);
+                put(201, 2);
+                put(302, 3);
+                put(431, 4);
+                put(532, 5);
+                put(661, 6);
+                put(761, 7);
+                put(861, 8);
+            }},
+            stubMaxComms.values()
+        );
+    }
+
+    private float[] miniRamp(int miniRampLength) {
+        float[] miniRamp = new float[miniRampLength];
+
+        for (int i = 0; i < miniRampLength; i++) {
+            miniRamp[i] = i / (float) miniRampLength;
+        }
+        return miniRamp;
+    }
 }
