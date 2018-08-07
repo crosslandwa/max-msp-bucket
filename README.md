@@ -7,7 +7,7 @@ I envisage making smaller libraries for specific patches. Until that requirement
 ## Setup
 
 - Git clone this library
-- New empty project in IntelliJ, import maven module
+- New empty project in IntelliJ, import maven module!
 - Add max.jar to project classpath
   - */Applications/Max5/Cycling '74/java/lib/max.jar*
 - Build classes/jar
